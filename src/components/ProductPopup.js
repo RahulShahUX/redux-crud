@@ -1,15 +1,19 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_PRODUCT } from "../reduxContext/actions";
+import { ADD_PRODUCT, EDIT_PRODUCT } from "../reduxContext/actions";
 
 
 export default function ProductPopup(props) {
+    const [currentProduct, setCurrentProduct] = useState(null)
     const products = useSelector(state => state.products);
     const dispatch = useDispatch();
     const nameRef = useRef(null);
     const priceRef = useRef(null);
+
+
     const categoryRef = useRef(null);
+    // console.log("props", props.editedProduct.id);
     const AddProduct = () => {
         const newProduct = {
             id: products.length + 1,
@@ -17,10 +21,9 @@ export default function ProductPopup(props) {
             price: priceRef.current.value,
             category: categoryRef.current.value
         }
-        products.push(newProduct);
         console.log("updated products", products);
-        dispatch(ADD_PRODUCT())
-        // props.handleClose();
+        dispatch(ADD_PRODUCT(newProduct));
+        props.handleClose();
     }
     return (
         <Modal show={props.show} onHide={props.handleClose}>
@@ -32,9 +35,6 @@ export default function ProductPopup(props) {
                     <Form.Group className="mb-3" controlId="productName">
                         <Form.Label>Name</Form.Label>
                         <Form.Control type="text" placeholder="Name" ref={nameRef} />
-                        {/* <Form.Text className="text-danger">
-                            Please add proper product name
-                        </Form.Text> */}
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="productPrice">

@@ -4,23 +4,22 @@ const initialState = {
     {id: 1,name:"Lays",price:"20",category:"Food"}
   ]
 }
-  
-  const productReducer = (state = initialState, action) => {
-    switch(action.type) {
-      case 'ADD_PRODUCT':
-        return {
-          ...state,
-          products: state.products
-        };
-      case 'DECREMENT':
-        return {
-          ...state,
-          count: state.count - 1
-        };
-      default:
-        return state;
-    }
-  };
-  
-  export default productReducer;
-  
+
+const productReducer = (state = initialState, action) => {
+  switch(action.type) {
+    case 'ADD_PRODUCT':
+      return {
+        ...state,
+        products: [...state.products, action.payload]
+      };
+    case 'EDIT_PRODUCT':
+      return {
+        ...state,
+        // products: [...state.products, action.payload]
+      };
+    default:
+      return state;
+  }
+};
+
+export default productReducer;

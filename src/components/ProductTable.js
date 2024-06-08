@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement } from '../reduxContext/actions';
+import { useSelector } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
 import ProductPopup from './ProductPopup';
 
 const ProductTable = () => {
   const [show, setShow] = useState(false);
+  const [editedProduct, setEditProduct] = useState([])
   const products = useSelector(state => state.products);
-  const dispatch = useDispatch();
+
 
   const handleClose = () => {
     setShow(false)
+  }
+
+  const EditProduct = (index) => {
+    setShow(true);
+    setEditProduct([products[index]]);
   }
 
   return (
@@ -26,14 +31,14 @@ const ProductTable = () => {
         </thead>
         <tbody>
           {
-            products.map((item) => {
+            products.map((item, index) => {
               return (
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>{item.price}</td>
                   <td>{item.category}</td>
                   <td>
-                    <Button variant="primary" className='me-2' onClick={()=>setShow(true)}>Edit</Button>
+                    <Button variant="primary" className='me-2' onClick={()=>EditProduct(index)}>Edit</Button>
                     <Button variant="danger">Delete</Button>
                   </td>
                 </tr>
@@ -42,7 +47,7 @@ const ProductTable = () => {
           }
         </tbody>
       </Table>
-      <ProductPopup show={show} handleClose={handleClose} />
+      <ProductPopup show={show} handleClose={handleClose} editedProduct={editedProduct} />
     </div>
   );
 };
