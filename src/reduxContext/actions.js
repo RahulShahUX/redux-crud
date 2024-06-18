@@ -13,10 +13,10 @@ export const ADD_PRODUCT = (product) => {
     };
   };
 
-  export const DELETE_PRODUCT = (productId) => {
+  export const DELETE_PRODUCT = (product) => {
     return {
       type: 'DELETE_PRODUCT',
-      payload: productId
+      payload: product
     };
   };
   

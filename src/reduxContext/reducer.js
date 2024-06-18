@@ -27,8 +27,12 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         // products: state.products.toSpliced(action.payload-1, 1)
-        products:state.products.filter((productId)=>{
-          return action.payload-1 != state.products[action.payload].id, console.log("filter", action.payload, state.products)
+        // products:state.products.filter((productId)=>{
+        //   return action.payload-1 !== state.products[action.payload-1].id, console.log("filter", action.payload, state.products[action.payload-1].id)
+        // })
+        products:state.products.filter((product)=>{
+          console.log("filter", action.payload)
+          return action.payload.id !== product.id  
         })
       };
     default:

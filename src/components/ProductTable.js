@@ -7,7 +7,6 @@ import { DELETE_PRODUCT } from "../reduxContext/actions";
 const ProductTable = () => {
   const [show, setShow] = useState(false);
   const [editedProduct, setEditProduct] = useState(null)
-  const [editedProduct1, setEditProduct1] = useState(0)
   const products = useSelector(state => state.products);
   const dispatch = useDispatch();
 
@@ -21,23 +20,17 @@ const ProductTable = () => {
     console.log("products", products);
     console.log("products[index]", products[index]);
     setEditProduct(products[index]);
-    setEditProduct1(editedProduct1=>editedProduct1+1);
     console.log("editedProduct", editedProduct);
-    // setTimeout(function() {
-      console.log("new", editedProduct1);
-    // }, 5000)
 
     setShow(true);
   }
 
-  const DeleteProduct = (productId) => {
-    console.log("index", productId);
-    dispatch(DELETE_PRODUCT(productId));
+  const DeleteProduct = (product) => {
+    dispatch(DELETE_PRODUCT(product));
   }
 
   return (
     <div>
-      {/* <Button variant="primary" className='me-2' onClick={()=>{setEditProduct1(editedProduct1=>editedProduct1+1); console.log("editedProduct1", editedProduct1)}}>Edit</Button> */}
       <Table bordered >
         <thead>
           <tr>
@@ -57,7 +50,7 @@ const ProductTable = () => {
                   <td>{item.category}</td>
                   <td>
                     <Button variant="primary" className='me-2' onClick={()=>EditProduct(index)}>Edit</Button>
-                    <Button variant="danger" onClick={()=>DeleteProduct(item.id)}>Delete</Button>
+                    <Button variant="danger" onClick={()=>DeleteProduct(item)}>Delete</Button>
                   </td>
                 </tr>
               )
