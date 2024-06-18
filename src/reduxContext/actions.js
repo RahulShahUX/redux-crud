@@ -12,4 +12,11 @@ export const ADD_PRODUCT = (product) => {
       payload: product
     };
   };
+
+  export const DELETE_PRODUCT = (productId) => {
+    return {
+      type: 'DELETE_PRODUCT',
+      payload: productId
+    };
+  };
   

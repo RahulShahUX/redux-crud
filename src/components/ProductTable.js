@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
 import ProductPopup from './ProductPopup';
+import { DELETE_PRODUCT } from "../reduxContext/actions";
 
 const ProductTable = () => {
   const [show, setShow] = useState(false);
-  const [editedProduct, setEditProduct] = useState([])
+  const [editedProduct, setEditProduct] = useState(null)
+  const [editedProduct1, setEditProduct1] = useState(0)
   const products = useSelector(state => state.products);
+  const dispatch = useDispatch();
 
 
   const handleClose = () => {
@@ -14,12 +17,27 @@ const ProductTable = () => {
   }
 
   const EditProduct = (index) => {
+    console.log("index", index);
+    console.log("products", products);
+    console.log("products[index]", products[index]);
+    setEditProduct(products[index]);
+    setEditProduct1(editedProduct1=>editedProduct1+1);
+    console.log("editedProduct", editedProduct);
+    // setTimeout(function() {
+      console.log("new", editedProduct1);
+    // }, 5000)
+
     setShow(true);
-    setEditProduct([products[index]]);
+  }
+
+  const DeleteProduct = (productId) => {
+    console.log("index", productId);
+    dispatch(DELETE_PRODUCT(productId));
   }
 
   return (
     <div>
+      {/* <Button variant="primary" className='me-2' onClick={()=>{setEditProduct1(editedProduct1=>editedProduct1+1); console.log("editedProduct1", editedProduct1)}}>Edit</Button> */}
       <Table bordered >
         <thead>
           <tr>
@@ -33,13 +51,13 @@ const ProductTable = () => {
           {
             products.map((item, index) => {
               return (
-                <tr key={item.id}>
+                <tr key={item.id} className='align-middle'>
                   <td>{item.name}</td>
                   <td>{item.price}</td>
                   <td>{item.category}</td>
                   <td>
                     <Button variant="primary" className='me-2' onClick={()=>EditProduct(index)}>Edit</Button>
-                    <Button variant="danger">Delete</Button>
+                    <Button variant="danger" onClick={()=>DeleteProduct(item.id)}>Delete</Button>
                   </td>
                 </tr>
               )
