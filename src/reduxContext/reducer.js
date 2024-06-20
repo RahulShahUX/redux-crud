@@ -6,7 +6,8 @@ const initialState = {
     { id: 4, name: "Lays", price: "20", category: "Food" },
     { id: 5, name: "Doritos", price: "20", category: "Food" },
     { id: 6, name: "Chitos", price: "20", category: "Food" }
-  ]
+  ],
+  filteredProducts: []
 }
 
 const productReducer = (state = initialState, action) => {
@@ -23,16 +24,39 @@ const productReducer = (state = initialState, action) => {
           return product.id === action.payload.id ? action.payload : product
         })
       };
+    case 'SEARCH_PRODUCT':
+      if (action.payload == "") {
+        // console.log("empty value", state);
+        return {
+          ...state,
+          products: state.products
+        }
+      }
+      else {
+        const searchedProducts = state.products.slice()
+        // console.log("search", action.payload);
+        if (action.payload == "" || action.payload == null) {
+          return {
+            ...state,
+            products: state.products
+          };
+        }
+        else {
+          return {
+            ...state,
+            filteredProducts: searchedProducts.filter((product) => {
+              // console.log("action.payload search products", action.payload, product.name.toLowerCase());
+              return (product.name.toLowerCase()).includes(action.payload);
+            })
+          };
+        }
+      }
     case 'DELETE_PRODUCT':
       return {
         ...state,
         // products: state.products.toSpliced(action.payload-1, 1)
-        // products:state.products.filter((productId)=>{
-        //   return action.payload-1 !== state.products[action.payload-1].id, console.log("filter", action.payload, state.products[action.payload-1].id)
-        // })
-        products:state.products.filter((product)=>{
-          console.log("filter", action.payload)
-          return action.payload.id !== product.id  
+        products: state.products.filter((product) => {
+          return action.payload.id !== product.id
         })
       };
     default:

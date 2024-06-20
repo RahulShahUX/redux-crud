@@ -4,23 +4,23 @@ import { Table, Button } from 'react-bootstrap';
 import ProductPopup from './ProductPopup';
 import { DELETE_PRODUCT } from "../reduxContext/actions";
 
-const ProductTable = () => {
+const ProductTable = (props) => {
   const [show, setShow] = useState(false);
   const [editedProduct, setEditProduct] = useState(null)
   const products = useSelector(state => state.products);
+  const filteredProducts = useSelector(state => state.filteredProducts);
   const dispatch = useDispatch();
-
 
   const handleClose = () => {
     setShow(false)
   }
 
   const EditProduct = (index) => {
-    console.log("index", index);
-    console.log("products", products);
-    console.log("products[index]", products[index]);
+    // console.log("index", index);
+    // console.log("products", products);
+    // console.log("products[index]", products[index]);
     setEditProduct(products[index]);
-    console.log("editedProduct", editedProduct);
+    // console.log("editedProduct", editedProduct);
 
     setShow(true);
   }
@@ -42,7 +42,8 @@ const ProductTable = () => {
         </thead>
         <tbody>
           {
-            products.map((item, index) => {
+            (props.mainSearchValue == "" || props.mainSearchValue == undefined || props.mainSearchValue == null) ?
+            (products.map((item, index) => {
               return (
                 <tr key={item.id} className='align-middle'>
                   <td>{item.name}</td>
@@ -54,7 +55,21 @@ const ProductTable = () => {
                   </td>
                 </tr>
               )
-            })
+            }))
+            :
+           ( filteredProducts.map((item, index) => {
+              return (
+                <tr key={item.id} className='align-middle'>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>{item.category}</td>
+                  <td>
+                    <Button variant="primary" className='me-2' onClick={()=>EditProduct(index)}>Edit</Button>
+                    <Button variant="danger" onClick={()=>DeleteProduct(item)}>Delete</Button>
+                  </td>
+                </tr>
+              )
+            }))
           }
         </tbody>
       </Table>

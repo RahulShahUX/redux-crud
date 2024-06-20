@@ -12,7 +12,7 @@ export default function ProductPopup(props) {
     const priceRef = useRef(null);
     const categoryRef = useRef(null);
 
-    console.log("props.editedProduct", props.editedProduct);
+    // console.log("props.editedProduct", props.editedProduct);
 
     useEffect(() => {
         if (props.editedProduct) {

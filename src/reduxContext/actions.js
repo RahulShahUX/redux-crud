@@ -19,4 +19,11 @@ export const ADD_PRODUCT = (product) => {
       payload: product
     };
   };
+
+  export const SEARCH_PRODUCT = (product) => {
+    return {
+      type: 'SEARCH_PRODUCT',
+      payload: product
+    };
+  };
   
